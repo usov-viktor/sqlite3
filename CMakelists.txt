@@ -1,0 +1,22 @@
+###################################################################
+# Проект для создания динамической библиотеки .dll с помощью MSVC #
+#                                                                 #
+###################################################################
+
+# Минимальная версия cmake
+cmake_minimum_required(VERSION 3.8)
+
+# Характеристики проекта
+project(sqlite)
+
+# Добавление директории "src"
+include_directories(${PROJECT_SOURCE_DIR}/src)
+
+# Компиляция динамической библиотеки "sqlite3.dll" из исходников sqlite3.c sqlite3.h sqlite3ext.h
+add_library(${PROJECT_NAME}_lib SHARED src/sqlite3.c src/sqlite3.h src/sqlite3ext.h)
+
+# Компиляция исполняемого файла sqlite3 из исходников shell.c sqlite3.c sqlite3.h sqlite3ext.h
+add_executable(sqlite3  src/shell.c src/sqlite3.c src/sqlite3.h src/sqlite3ext.h)
+
+# Линковка библиотеки к исполняемому файлу
+target_link_libraries(sqlite3 ${PROJECT_NAME}_lib)
